@@ -23,7 +23,7 @@ const app = express();
 
 // Configures body parser
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
 
 app.use('/static', express.static(path.join(__dirname, 'public')));
 

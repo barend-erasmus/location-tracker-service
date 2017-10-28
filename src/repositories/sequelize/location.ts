@@ -27,6 +27,24 @@ export class LocationRepository extends BaseRepository implements ILocationRepos
         return true;
     }
 
+    public async createBulk(deviceId: string, locations: Location[]): Promise<boolean> {
+
+        await BaseRepository.models.LicenseDisc.bulkCreate(locations.map((location) => {
+            return {
+                accuracy: location.accuracy,
+                altitude: location.altitude,
+                bearing: location.bearing,
+                deviceId,
+                latitude: location.latitude,
+                longitude: location.longitude,
+                speed: location.speed,
+                timestamp: location.timestamp,
+            }
+        }));
+
+        return true;
+    }
+
     public async list(deviceId: string, startTimestamp: number, endTimestamp: number): Promise<Location[]> {
 
         if (!startTimestamp && !endTimestamp) {
@@ -41,7 +59,7 @@ export class LocationRepository extends BaseRepository implements ILocationRepos
 
             return locations.map((x) => new Location(parseFloat(x.accuracy), parseFloat(x.altitude), parseFloat(x.bearing), parseFloat(x.speed), parseFloat(x.latitude), parseFloat(x.longitude), parseInt(x.timestamp)));
 
-        }else {
+        } else {
             const locations: any[] = await BaseRepository.models.LicenseDisc.findAll({
                 order: [
                     ['timestamp', 'ASC'],
@@ -50,7 +68,7 @@ export class LocationRepository extends BaseRepository implements ILocationRepos
                     deviceId,
                     timestamp: {
                         $gte: startTimestamp,
-                        $lte: endTimestamp,
+                        $lt: endTimestamp,
                     },
                 },
             });

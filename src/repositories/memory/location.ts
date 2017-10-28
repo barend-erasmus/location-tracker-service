@@ -19,6 +19,17 @@ export class LocationRepository implements ILocationRepository {
         return true;
     }
 
+    public async createBulk(deviceId: string, locations: Location[]): Promise<boolean> {
+
+        if (!this.locations[deviceId]) {
+            this.locations[deviceId] = [];
+        }
+
+        this.locations[deviceId] = this.locations[deviceId].concat(locations);
+
+        return true;
+    }
+
     public async list(deviceId: string): Promise<Location[]> {
         return this.locations[deviceId];
     }

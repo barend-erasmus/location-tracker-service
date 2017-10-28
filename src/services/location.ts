@@ -26,13 +26,13 @@ export class LocationService {
         let previousLocation: Location;
 
         const result: any[] = [];
-        
+
         for (const location of locations) {
             if (!previousLocation) {
                 startTimestamp = location.timestamp;
                 previousLocation = location;
                 continue;
-            }else if (location.timestamp - previousLocation.timestamp > 100000) {
+            } else if (location.timestamp - previousLocation.timestamp > 100000) {
                 endTimestamp = location.timestamp;
                 result.push([
                     startTimestamp,
@@ -42,9 +42,9 @@ export class LocationService {
                 startTimestamp = -1;
                 endTimestamp = -1;
                 previousLocation = null;
-            }else {
+            } else {
                 previousLocation = location;
-            }   
+            }
         }
 
         if (startTimestamp !== -1 && endTimestamp === -1) {
@@ -74,5 +74,12 @@ export class LocationService {
         await this.locationRepository.create(deviceId, location);
 
         return location;
+    }
+
+    public async createBulk(deviceId: string, locations: Location[]): Promise<Location[]> {
+
+        await this.locationRepository.createBulk(deviceId, locations);
+
+        return locations;
     }
 }

@@ -27,11 +27,11 @@
 
     function initMap() {
 
-        var deviceId = '356318067855771';
+        var deviceId = getParameterByName('deviceId', undefined); // '358022066432461';
 
         map = new google.maps.Map(document.getElementById('map'), {
             zoom: 13,
-            center: { lat: -33.91238165, lng: 18.46781052 },
+            center: { lat: -33.9249, lng: 18.4241 },
             mapTypeId: 'terrain'
         });
 
@@ -71,5 +71,15 @@
             color += letters[Math.floor(Math.random() * 16)];
         }
         return color;
+    }
+
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 </script>
