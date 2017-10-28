@@ -25,6 +25,7 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
+    "express-handlebars": "^3.0.0",
     "moment": "^2.19.1",
     "pg": "^7.3.0",
     "pg-hstore": "^2.3.2",
@@ -32,7 +33,11 @@
     "yargs": "^9.0.1"
   },
   "devDependencies": {
+    "@types/chai": "^4.0.4",
     "@types/express": "^4.0.37",
-    "@types/sequelize": "^4.0.77"
+    "@types/mocha": "^2.2.44",
+    "@types/sequelize": "^4.0.77",
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1"
   }
 }

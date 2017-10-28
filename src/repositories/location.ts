@@ -3,7 +3,7 @@ import { Location } from './../entities/location';
 
 export interface ILocationRepository {
 
-    create(deviceId: string, licenseDisc: Location): Promise<boolean>;
+    create(deviceId: string, location: Location): Promise<boolean>;
 
-    list(deviceId: string): Promise<Location[]>;
+    list(deviceId: string, startTimestamp: number, endTimestamp: number): Promise<Location[]>;
 }

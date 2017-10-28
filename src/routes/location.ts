@@ -1,6 +1,5 @@
 // Imports
 import * as express from 'express';
-import * as moment from 'moment';
 import { config } from './../config';
 
 // Imports repositories
@@ -16,7 +15,7 @@ export class LocationRouter {
 
     public static async create(req: express.Request, res: express.Response) {
         for (const item of req.body) {
-            LocationRouter.getLocationService().create(
+            await LocationRouter.getLocationService().create(
                 req.get('x-device-id'),
                 item.Accuracy,
                 item.Altitude,
@@ -29,6 +28,16 @@ export class LocationRouter {
         }
 
         res.json('OK');
+    }
+
+    public static async list(req: express.Request, res: express.Response) {
+        const locations = await LocationRouter.getLocationService().list(req.query.deviceId, req.query.startTimestamp, req.query.endTimestamp);
+        res.json(locations);
+    }
+
+    public static async listSessions(req: express.Request, res: express.Response) {
+        const sessions = await LocationRouter.getLocationService().listSessions(req.query.deviceId);
+        res.json(sessions);
     }
 
     protected static getLocationService(): LocationService {

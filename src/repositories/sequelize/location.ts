@@ -27,16 +27,35 @@ export class LocationRepository extends BaseRepository implements ILocationRepos
         return true;
     }
 
-    public async list(deviceId: string): Promise<Location[]> {
-        const locations: any[] = await BaseRepository.models.LicenseDisc.findAll({
-            order: [
-                ['timestamp', 'ASC'],
-            ],
-            where: {
-                deviceId
-            },
-        });
+    public async list(deviceId: string, startTimestamp: number, endTimestamp: number): Promise<Location[]> {
 
-        return locations.map((x) => new Location(x.accuracy, x.altitude, x.bearing, x.speed, x.latitude, x.longitude, x.timestamp));
+        if (!startTimestamp && !endTimestamp) {
+            const locations: any[] = await BaseRepository.models.LicenseDisc.findAll({
+                order: [
+                    ['timestamp', 'ASC'],
+                ],
+                where: {
+                    deviceId,
+                },
+            });
+
+            return locations.map((x) => new Location(parseFloat(x.accuracy), parseFloat(x.altitude), parseFloat(x.bearing), parseFloat(x.speed), parseFloat(x.latitude), parseFloat(x.longitude), parseInt(x.timestamp)));
+
+        }else {
+            const locations: any[] = await BaseRepository.models.LicenseDisc.findAll({
+                order: [
+                    ['timestamp', 'ASC'],
+                ],
+                where: {
+                    deviceId,
+                    timestamp: {
+                        $gte: startTimestamp,
+                        $lte: endTimestamp,
+                    },
+                },
+            });
+
+            return locations.map((x) => new Location(parseFloat(x.accuracy), parseFloat(x.altitude), parseFloat(x.bearing), parseFloat(x.speed), parseFloat(x.latitude), parseFloat(x.longitude), parseInt(x.timestamp)));
+        }
     }
 }
