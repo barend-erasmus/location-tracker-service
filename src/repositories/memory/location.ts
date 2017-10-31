@@ -6,7 +6,7 @@ import { Location } from './../../entities/location';
 
 export class LocationRepository implements ILocationRepository {
 
-    private locations: {} = [];
+    private locations: {} = {};
 
     public async create(deviceId: string, location: Location): Promise<boolean> {
 

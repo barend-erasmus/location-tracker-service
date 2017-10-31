@@ -4,11 +4,11 @@ import * as Sequelize from 'sequelize';
 export class BaseRepository {
     protected static sequelize: Sequelize.Sequelize = null;
     protected static models: {
-        LicenseDisc: Sequelize.Model<{}, {}>,
+        Locations: Sequelize.Model<{}, {}>,
     } = null;
 
     private static defineModels(): void {
-        const LicenseDisc = BaseRepository.sequelize.define('locations', {
+        const Locations = BaseRepository.sequelize.define('locations', {
             accuracy: {
                 allowNull: false,
                 type: Sequelize.NUMERIC,
@@ -44,7 +44,7 @@ export class BaseRepository {
         });
 
         this.models = {
-            LicenseDisc
+            Locations
         };
     }
 

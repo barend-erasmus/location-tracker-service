@@ -14,7 +14,6 @@ import { Location } from './../entities/location';
 export class LocationRouter {
 
     public static async create(req: express.Request, res: express.Response) {
-        console.log(req.body.length);
         await LocationRouter.getLocationService().createBulk(
             req.get('x-device-id'),
             req.body.map((item) => new Location(
