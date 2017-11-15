@@ -13,7 +13,7 @@ export class LocationRepository extends BaseRepository implements ILocationRepos
 
     public async create(deviceId: string, location: Location): Promise<boolean> {
 
-        await BaseRepository.models.LicenseDisc.create({
+        await BaseRepository.models.Locations.create({
             accuracy: location.accuracy,
             altitude: location.altitude,
             bearing: location.bearing,
@@ -29,7 +29,7 @@ export class LocationRepository extends BaseRepository implements ILocationRepos
 
     public async createBulk(deviceId: string, locations: Location[]): Promise<boolean> {
 
-        await BaseRepository.models.LicenseDisc.bulkCreate(locations.map((location) => {
+        await BaseRepository.models.Locations.bulkCreate(locations.map((location) => {
             return {
                 accuracy: location.accuracy,
                 altitude: location.altitude,
@@ -48,7 +48,7 @@ export class LocationRepository extends BaseRepository implements ILocationRepos
     public async list(deviceId: string, startTimestamp: number, endTimestamp: number): Promise<Location[]> {
 
         if (!startTimestamp && !endTimestamp) {
-            const locations: any[] = await BaseRepository.models.LicenseDisc.findAll({
+            const locations: any[] = await BaseRepository.models.Locations.findAll({
                 order: [
                     ['timestamp', 'ASC'],
                 ],
@@ -60,7 +60,7 @@ export class LocationRepository extends BaseRepository implements ILocationRepos
             return locations.map((x) => new Location(parseFloat(x.accuracy), parseFloat(x.altitude), parseFloat(x.bearing), parseFloat(x.speed), parseFloat(x.latitude), parseFloat(x.longitude), parseInt(x.timestamp)));
 
         } else {
-            const locations: any[] = await BaseRepository.models.LicenseDisc.findAll({
+            const locations: any[] = await BaseRepository.models.Locations.findAll({
                 order: [
                     ['timestamp', 'ASC'],
                 ],
